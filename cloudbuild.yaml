@@ -1,0 +1,29 @@
+steps:
+  # Step 1: Build the highly-optimized multi-stage Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/swasthbite-ui', '.']
+
+  # Step 2: Push the resulting image securely to the Google Container Registry (GCR)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/swasthbite-ui']
+
+  # Step 3: Deploy the image exclusively to Google Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'swasthbite'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/swasthbite-ui'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '80'
+
+# Define the image explicitly so Cloud Build tracks it in the metadata
+images:
+  - 'gcr.io/$PROJECT_ID/swasthbite-ui'
