@@ -1,92 +1,66 @@
 /**
- * Nutrition Reasoner: The core logic mimicking an AI/ML decision tree.
- * Calculates an interpretable "Health Score".
+ * The Simulated ML Brain component representing the interpretable nutrition logic.
+ * @module nutritionReasoner
  */
 
 /**
- * Calculates health recommendations based on context points
- * @param {Object} context - The user context (goal, hunger, mood, timeOfDay).
- * @param {string|null} pastFavored - Data from behaviorTracker.
- * @returns {Object} { score, suggestion, alternatives, explanation }
+ * Analyzes contexts to calculate a quantifiable health decision payload prioritizing AI Explainability scoring constraints.
+ * @param {Object} context - Real-time situational context block from out Observer module.
+ * @param {string|null} historyFavored - The personalized algorithmic affinity match if one exists.
+ * @returns {Object} Evaluated outcome encapsulating { score, decision, explanation, alternatives }.
  */
-export function evaluateNutrition(context, pastFavored = null) {
-  // Validate inputs, fallback gracefully
-  if (!context || typeof context.hunger !== 'number') {
-    return createFallback();
-  }
+export function calculateHealthScore(context, historyFavored) {
+  let score = 50; 
+  let explanation = '';
 
-  let rawScore = 50; // Neutral baseline
-  const explanations = [];
-
-  // Goal Weights
-  if (context.goal === 'weight_loss') {
-    rawScore += 10;
-    explanations.push("Weight loss goal selected: Prioritizing high-volume, low-calorie nutrient density.");
-  } else if (context.goal === 'muscle_gain') {
-    rawScore += 5;
-    explanations.push("Muscle gain objective: Increasing required protein margins.");
-  }
-
-  // Hunger Weights
+  // 1: Synthesize logic based on hunger constraints weighting
   if (context.hunger > 7) {
-    rawScore -= 5;
-    explanations.push(`High hunger (Level ${context.hunger}): You are prone to impulsive eating; recommending heavy fiber to stabilize blood sugar.`);
+    if (context.mood === 'stressed' || context.mood === 'fatigued') {
+       score -= 25;
+       explanation = "High fatigue combined with deep hunger drastically increases impulsive metabolic cravings.";
+    } else {
+       score += 15;
+       explanation = "Active hunger levels indicate optimized digestive timing for nutrient absorption naturally.";
+    }
   } else if (context.hunger < 4) {
-    rawScore -= 10;
-    explanations.push(`Low hunger (Level ${context.hunger}): Potential emotional eating detected. Consider delaying the meal.`);
+    score -= 15;
+    explanation = "Your system is not presently seeking caloric fuel; grazing behavior detected natively.";
   } else {
-    rawScore += 10;
-    explanations.push(`Moderate hunger (Level ${context.hunger}): Optimal metabolic window for a balanced meal.`);
+    score += 20;
+    explanation = "Moderate appetite stability detected, indicating a disciplined metabolic state ideal for sustained energy input.";
   }
 
-  // Mood Weights
-  if (context.mood === 'stressed' || context.mood === 'fatigued') {
-    rawScore -= 15;
-    explanations.push(`Mood is ${context.mood}: Cortisol elevated. High risk of craving refined sugars. Recommending omega-3s and complex carbs.`);
-  } else if (context.mood === 'happy') {
-    rawScore += 10;
-    explanations.push("Positive mood detected: Better self-control. Good state for mindful eating.");
+  // 2: Apply temporal logic modifiers
+  if (context.timeOfDay === 'night' && context.hunger < 6) {
+    score -= 20;
+    explanation += " Consuming dense nutrients late at night strictly disrupts natural circadian metabolic recovery cycles.";
   }
 
-  // Time of Day
-  if (context.timeOfDay === 'night') {
-    rawScore -= 10;
-    explanations.push("Night time: Digestion slows. Heavy calorie intake score severely reduced.");
-  }
+  // Finalize bounds
+  score = Math.max(0, Math.min(100, score));
 
-  // Ensure bounds
-  const finalScore = Math.max(0, Math.min(100, rawScore));
+  // Determine Categorical Output Decision constraints
+  const decisionStr = score >= 65 ? 'Eat Recommended' : 'Avoid/Delay';
 
-  // Determine Categorization
-  let suggestion = 'Caution';
-  if (finalScore >= 70) suggestion = 'Eat';
-  else if (finalScore < 40) suggestion = 'Avoid';
-
-  // Determine Alternatives
+  // Array derivation targeting dietary constraints
   let alternatives = [];
-  if (context.goal === 'weight_loss') alternatives = ['Sprouted Moong Salad', 'Tandoori Paneer', 'Palak Soup'];
-  else if (context.goal === 'muscle_gain') alternatives = ['Soya Chunks Curry', 'Tandoori Chicken', 'High-Protein Sattu'];
-  else alternatives = ['Masala Oats', 'Dahi / Curd', 'Makhana (Fox Nuts)'];
+  if (context.goal === 'weight_loss') {
+    alternatives = ['Sprouted Moong Salad', 'Tandoori Paneer Grill'];
+  } else if (context.goal === 'muscle_gain') {
+    alternatives = ['Soya Chunks Stir-fry', 'Tandoori Chicken Skewers'];
+  } else {
+    alternatives = ['Masala Oats Bowl', 'Dahi (Yogurt) with Nuts'];
+  }
 
-  // Inject behavioral tracking data
-  if (pastFavored && !alternatives.includes(pastFavored)) {
-    alternatives.unshift(pastFavored + ' (Past Favorite)');
-    explanations.push(`Historical data reveals you succeed often with: ${pastFavored}.`);
+  // Inject History Bias to demonstrate adaptive agentic learning visually
+  if (historyFavored && !alternatives.includes(historyFavored)) {
+    alternatives[0] = `(Personalized) ${historyFavored}`;
   }
 
   return {
-    score: finalScore,
-    suggestion: suggestion,
-    alternatives: alternatives.slice(0, 3),
-    explanation: explanations.join(' ')
-  };
-}
-
-function createFallback() {
-  return {
-    score: 50,
-    suggestion: 'Caution',
-    alternatives: ['Water', 'Apples'],
-    explanation: "Insufficient sensory data. Recommending baseline hydration and fiber."
+    score: score,
+    decision: decisionStr,
+    explanation: explanation.trim(),
+    alternatives: alternatives
   };
 }
