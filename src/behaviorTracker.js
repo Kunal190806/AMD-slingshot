@@ -17,7 +17,7 @@ export function initBehaviorStorage() {
         context: { goal: 'weight_loss', mood: 'stressed', hunger: 8 },
         decision: {
           suggestion: 'Eat',
-          healthyAlternative: 'Salads',
+          healthyAlternative: 'Sprouted Moong Salad',
           score: 85
         }
       },
@@ -26,7 +26,7 @@ export function initBehaviorStorage() {
         context: { goal: 'weight_loss', mood: 'neutral', hunger: 4 },
         decision: {
           suggestion: 'Avoid',
-          healthyAlternative: 'Fruit Bowl',
+          healthyAlternative: 'Masala Oats',
           score: 35
         }
       }

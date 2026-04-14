@@ -3,7 +3,7 @@
  */
 import { gatherContext } from './contextObserver.js';
 import { evaluateNutrition } from './nutritionReasoner.js';
-import { initBehaviorStorage, logDecision, getPastFavoredAlternative } from './behaviorTracker.js';
+import { initBehaviorStorage, logDecision, getPastFavoredAlternative, getHistory, clearHistory } from './behaviorTracker.js';
 import { fetchHealthyPlaces } from './actionMapper.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,12 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sync range slider display
   hungerLevel.addEventListener('input', (e) => {
     hungerDisplay.textContent = e.target.value;
+    hungerLevel.setAttribute('aria-valuenow', e.target.value);
   });
 
-  // Handle form submission entirely locally without page reloads
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
+  const runEvaluation = async () => {
     // 1. Observe Context
     const currentContext = gatherContext();
     
@@ -40,12 +38,99 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Render Output
     renderResponse(decision, responseContainer);
 
-    // 6. Action Mapping (Async Fetch)
-    placesContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.875rem;">Searching for nearby healthy options...</p>';
-    const places = await fetchHealthyPlaces(decision.alternatives[0]);
+    // 6. Action Mapping (Async Fetch) using location
+    placesContainer.innerHTML = '<p style="color: var(--on-surface-variant); font-size: 0.875rem;">Searching for nearby healthy options...</p>';
+    const places = await fetchHealthyPlaces(decision.alternatives[0], currentContext.location);
     renderPlaces(places, placesContainer);
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await runEvaluation();
+  });
+  
+  // Clean initialization rendering dynamically
+  runEvaluation();
+
+  /* --- SPA ROUTING LOGIC --- */
+  const navLinks = document.querySelectorAll('.nav-link');
+  const pageViews = document.querySelectorAll('.page-view');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('data-target');
+      if (!targetId) return;
+
+      // Update active states on links
+      navLinks.forEach(nav => nav.classList.remove('active'));
+      document.querySelectorAll(`[data-target="${targetId}"]`).forEach(n => n.classList.add('active'));
+
+      // Switch view displays
+      pageViews.forEach(view => {
+        if (view.id === targetId) {
+          view.classList.add('active');
+        } else {
+          view.classList.remove('active');
+        }
+      });
+
+      // Load specific data per view
+      if (targetId === 'view-logs') populateLogs();
+      if (targetId === 'view-insights') populateInsights();
+      if (targetId === 'view-nearby') populateNearby();
+    });
+  });
+
+  // Account: Clear Data Handler
+  document.getElementById('clear-history-btn').addEventListener('click', () => {
+    clearHistory();
+    alert('Behavioral learning caches wiped natively!');
   });
 });
+
+/** SPA VIEW POPULATORS **/
+
+function populateLogs() {
+  const container = document.getElementById('logs-list-container');
+  const history = getHistory().reverse(); // newest first
+  if (history.length === 0) {
+    container.innerHTML = '<p class="text-muted">No historical data recorded yet.</p>';
+    return;
+  }
+  let html = '';
+  history.forEach((log) => {
+     let dateObj = new Date(log.timestamp);
+     let dString = isNaN(dateObj) ? 'Past Entry' : dateObj.toLocaleString();
+     html += `
+       <div class="glass-card">
+         <h4 style="margin-bottom:0.5rem;">${dString}</h4>
+         <p><strong>Goal:</strong> ${log.context.goal} | <strong>Mood:</strong> ${log.context.mood}</p>
+         <p><strong>Decision Engine:</strong> ${log.decision.suggestion} (Score: ${log.decision.score})</p>
+         <p><strong>Alternative Picked:</strong> <span class="tag" style="background:var(--tertiary); color:white; padding:2px 6px; border-radius:4px;">${log.decision.healthyAlternative}</span></p>
+       </div>
+     `;
+  });
+  container.innerHTML = html;
+}
+
+function populateInsights() {
+  const container = document.getElementById('insight-text-output');
+  const favored = getPastFavoredAlternative(document.getElementById('goal-select').value || 'maintenance');
+  container.textContent = favored ? `Based on your recent paths, the algorithm has identified an affinity for "${favored}". We will prioritize this matching locally.` : "Insufficient behavioral data to identify a strict macro preference for your current goal yet.";
+}
+
+async function populateNearby() {
+  const container = document.getElementById('nearby-page-container');
+  container.innerHTML = '<p class="text-muted" style="grid-column: span 12;">Fetching locations locally...</p>';
+  // Provide a generic top search term to fill the page grid
+  const places = await fetchHealthyPlaces('Fresh Food', document.getElementById('location-input').value);
+  // Extend array to simulate more items for a full page grid visually
+  const fullPlaces = [...places, ...places, ...places]; // 9 mock items
+  renderPlaces(fullPlaces, container);
+}
+
+/** Original Shared Rendering Block below... **/
 
 /**
  * Renders the AI decision onto the UI utilizing templates and CSS status classes.
@@ -86,7 +171,7 @@ function renderResponse(decision, container) {
     let listHtml = '';
     decision.alternatives.forEach(alt => {
       // Pick a random icon for demo variations
-      const icon = alt.includes('Oatmeal') || alt.includes('Quinoa') ? 'eco' : alt.includes('Yogurt') || alt.includes('Water') ? 'water_full' : 'restaurant';
+      const icon = alt.includes('Moong') || alt.includes('Sattu') ? 'eco' : alt.includes('Dahi') || alt.includes('Soup') ? 'water_full' : 'restaurant';
       listHtml += `
         <div class="alt-item">
           <div class="alt-info">
@@ -115,7 +200,7 @@ function renderResponse(decision, container) {
  */
 function renderPlaces(places, container) {
   if (places.length === 0) {
-    container.innerHTML = '<p class="text-muted">No nearby places found via Action Mapper.</p>';
+    container.innerHTML = '<p class="text-muted" style="grid-column: span 12;">No nearby places found via Action Mapper.</p>';
     return;
   }
 

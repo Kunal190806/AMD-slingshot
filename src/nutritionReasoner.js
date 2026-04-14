@@ -64,9 +64,9 @@ export function evaluateNutrition(context, pastFavored = null) {
 
   // Determine Alternatives
   let alternatives = [];
-  if (context.goal === 'weight_loss') alternatives = ['Salads', 'Grilled Chicken', 'Steamed Veggies'];
-  else if (context.goal === 'muscle_gain') alternatives = ['Protein Shake', 'Lean Steak', 'Greek Yogurt'];
-  else alternatives = ['Fruit Bowl', 'Oatmeal', 'Mixed Nuts'];
+  if (context.goal === 'weight_loss') alternatives = ['Sprouted Moong Salad', 'Tandoori Paneer', 'Palak Soup'];
+  else if (context.goal === 'muscle_gain') alternatives = ['Soya Chunks Curry', 'Tandoori Chicken', 'High-Protein Sattu'];
+  else alternatives = ['Masala Oats', 'Dahi / Curd', 'Makhana (Fox Nuts)'];
 
   // Inject behavioral tracking data
   if (pastFavored && !alternatives.includes(pastFavored)) {

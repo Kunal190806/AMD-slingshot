@@ -9,12 +9,13 @@ const API_KEY = import.meta.env.VITE_MAPS_API_KEY;
 /**
  * Searches for nearby places that match the target health constraints.
  * @param {string} recommendation - The type of food recommended (e.g. "salads", "lean protein")
+ * @param {string} location - The physical location string to search within.
  * @returns {Promise<Array>} Array of mock or fetched place objects.
  */
-export async function fetchHealthyPlaces(recommendation) {
+export async function fetchHealthyPlaces(recommendation, location = "") {
   // If no valid API key is present, fallback to simulated response to fulfill the test requirement gracefully.
   if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
-    return simulateFetchPlaces(recommendation);
+    return simulateFetchPlaces(recommendation, location);
   }
 
   // NOTE: Real implementation would inject the Google Maps script or use the REST API here.
@@ -36,15 +37,17 @@ export async function fetchHealthyPlaces(recommendation) {
 /**
  * Simulates finding nearby health food outlets.
  * @param {string} keyword - Recommendation term.
+ * @param {string} location - Selected location constraint.
  * @returns {Promise<Array>}
  */
-function simulateFetchPlaces(keyword) {
+function simulateFetchPlaces(keyword, location) {
   return new Promise((resolve) => {
     setTimeout(() => {
+      const displayLoc = location ? ` near ${location.split(',')[0]}` : "";
       const places = [
-        { name: `Green Bowl (${keyword})`, status: 'Open Now', rating: 4.8 },
-        { name: `Nature's Fuel Kitchen`, status: 'Open Now', rating: 4.5 },
-        { name: `Vitality Blend Cafe`, status: 'Closes soon', rating: 4.2 }
+        { name: `Sattvic Greens (${keyword})${displayLoc}`, status: 'Dietitian Approved', rating: 4.8 },
+        { name: `Prakriti Cafe`, status: 'Low Glycemic', rating: 4.5 },
+        { name: `AyurBite Kitchen`, status: 'High Protein', rating: 4.2 }
       ];
       resolve(places);
     }, 600);

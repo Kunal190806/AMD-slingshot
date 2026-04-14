@@ -22,10 +22,10 @@
         <span class="tagline">Smart Bites. Swasth Life.</span>
       </div>
       <nav class="desktop-nav">
-        <a href="#" class="active">Dashboard</a>
-        <a href="#">Analytics</a>
-        <a href="#">Clinics</a>
-        <a href="#">History</a>
+        <a href="#" class="nav-link active" data-target="view-home">Dashboard</a>
+        <a href="#" class="nav-link" data-target="view-insights">Analytics</a>
+        <a href="#" class="nav-link" data-target="view-nearby">Food Spots</a>
+        <a href="#" class="nav-link" data-target="view-logs">History</a>
       </nav>
       <div class="user-actions">
         <button class="icon-btn"><span class="material-symbols-outlined">notifications</span></button>
@@ -41,20 +41,20 @@
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-icon">
-        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">clinical_notes</span>
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">spa</span>
       </div>
       <div class="sidebar-title">
-        <h2>Clinical Ether</h2>
-        <p>Health Assistant</p>
+        <h2>Smart Assistant</h2>
+        <p>Food Decisions</p>
       </div>
     </div>
     
     <nav class="side-nav">
-      <a href="#" class="active"><span class="material-symbols-outlined">home</span>Home</a>
-      <a href="#"><span class="material-symbols-outlined">edit_note</span>Health Log</a>
-      <a href="#"><span class="material-symbols-outlined">psychology</span>AI Insights</a>
-      <a href="#"><span class="material-symbols-outlined">location_on</span>Nearby Help</a>
-      <a href="#"><span class="material-symbols-outlined">person</span>Account</a>
+      <a href="#" class="nav-link active" data-target="view-home"><span class="material-symbols-outlined">home</span>Home</a>
+      <a href="#" class="nav-link" data-target="view-logs"><span class="material-symbols-outlined">edit_note</span>Health Log</a>
+      <a href="#" class="nav-link" data-target="view-insights"><span class="material-symbols-outlined">psychology</span>AI Insights</a>
+      <a href="#" class="nav-link" data-target="view-nearby"><span class="material-symbols-outlined">restaurant_menu</span>Nearby Food</a>
+      <a href="#" class="nav-link" data-target="view-account"><span class="material-symbols-outlined">person</span>Account</a>
     </nav>
     
     <div class="sidebar-bottom">
@@ -68,158 +68,142 @@
     </div>
   </aside>
 
-  <!-- Main Content Area -->
-  <main class="main-content">
-    <div class="dashboard-wrapper">
-      
-      <section class="hero-header">
-        <h1>Clinical <span>Intelligence</span> Dashboard</h1>
-        <p>Precision nutrition and wellness metrics driven by Clinical Ether AI for your smart lifestyle.</p>
-      </section>
+  <main class="main-content" aria-label="Main Dashboard Area">
+    
+    <!-- view 1: HOME -->
+    <div id="view-home" class="page-view active">
+      <div class="dashboard-wrapper">
+        <section class="hero-header" aria-labelledby="hero-title">
+          <h1 id="hero-title">Smart <span>Food Decision</span> Engine</h1>
+          <p>Precision nutrition and wellness metrics driven by AI reasoning for your active lifestyle.</p>
+        </section>
 
-      <div class="bento-grid">
-        <!-- 70% Layout left form -->
-        <div class="input-panel glass-card">
-          <div class="panel-heading">
-            <div class="icon-wrap"><span class="material-symbols-outlined">analytics</span></div>
-            <h2>Clinical Assessment</h2>
+        <div class="bento-grid">
+          <!-- 70% Layout left form -->
+          <div class="input-panel glass-card" aria-labelledby="assessment-title">
+            <div class="panel-heading">
+              <div class="icon-wrap"><span class="material-symbols-outlined" aria-hidden="true">sensors</span></div>
+              <h2 id="assessment-title">Sensing Context</h2>
+            </div>
+
+            <form id="context-form" class="assessment-form" aria-label="Health Context Setup Form">
+              <div class="form-row">
+                <div class="input-group">
+                  <label for="goal-select">Primary Goal</label>
+                  <select id="goal-select" name="goal" aria-required="true">
+                    <option value="weight_loss">Weight loss</option>
+                    <option value="muscle_gain">Muscle gain</option>
+                    <option value="maintenance">Maintenance</option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <label for="mood-select">Current Mood</label>
+                  <select id="mood-select" name="mood" aria-required="true">
+                    <option value="neutral">Normal</option>
+                    <option value="stressed">Stressed</option>
+                    <option value="happy">Energetic</option>
+                    <option value="fatigued">Fatigued</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-group full-width">
+                <div class="label-row">
+                  <label for="hunger-level">Hunger Level (0-10)</label>
+                  <span id="hunger-value-display" class="highlight-val" aria-live="polite">7.0</span>
+                </div>
+                <input type="range" id="hunger-level" min="0" max="10" step="0.5" value="7" aria-valuemin="0" aria-valuemax="10" aria-valuenow="7">
+              </div>
+
+              <div class="input-group full-width">
+                <label for="location-input">Current Location</label>
+                <div class="icon-input">
+                  <span class="material-symbols-outlined text-muted" aria-hidden="true">location_on</span>
+                  <input type="text" id="location-input" placeholder="Mumbai, India" value="Mumbai, India" aria-label="Location Input">
+                </div>
+              </div>
+
+              <div class="form-action">
+                <button type="submit" class="primary-btn" aria-label="Evaluate Context Options">
+                  <span class="material-symbols-outlined" aria-hidden="true" style="font-variation-settings: 'FILL' 1;">neurology</span>
+                  Analyze Nutrition Data
+                </button>
+              </div>
+            </form>
           </div>
 
-          <form id="context-form" class="assessment-form">
-            <div class="form-row">
-              <div class="input-group">
-                <label>Primary Goal</label>
-                <select id="goal-select" name="goal">
-                  <option value="weight_loss">Weight loss</option>
-                  <option value="muscle_gain">Muscle gain</option>
-                  <option value="maintenance">Maintenance</option>
-                </select>
-              </div>
-              <div class="input-group">
-                <label>Current Mood</label>
-                <select id="mood-select" name="mood">
-                  <option value="neutral">Normal</option>
-                  <option value="stressed">Stressed</option>
-                  <option value="happy">Energetic</option>
-                  <option value="fatigued">Fatigued</option>
-                </select>
-              </div>
+          <!-- 30% Layout right results -->
+          <div class="results-panel" aria-live="polite" aria-atomic="true">
+            <div id="ai-response-container" class="score-card glass-card">
+              <!-- Dynamically Injected -->
             </div>
-
-            <div class="input-group full-width">
-              <div class="label-row">
-                <label>Hunger Level (0-10)</label>
-                <span id="hunger-value-display" class="highlight-val">7.0</span>
-              </div>
-              <input type="range" id="hunger-level" min="0" max="10" step="0.5" value="7">
-            </div>
-
-            <div class="input-group full-width">
-              <label>Current Location</label>
-              <div class="icon-input">
-                <span class="material-symbols-outlined text-muted">location_on</span>
-                <input type="text" id="location-input" placeholder="San Francisco, CA" value="San Francisco, CA">
-              </div>
-            </div>
-
-            <div class="form-action">
-              <button type="submit" class="primary-btn">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">neurology</span>
-                Analyze Nutrition Data
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- 30% Layout right results -->
-        <div class="results-panel">
-          <div id="ai-response-container" class="score-card glass-card">
-            <!-- Dynamic data will be injected here. Initial state matches design -->
-            <div class="score-circle">
-              <svg viewBox="0 0 160 160">
-                <circle cx="80" cy="80" r="70" class="track"></circle>
-                <circle cx="80" cy="80" r="70" class="progress" style="stroke-dashoffset: 110;"></circle>
-              </svg>
-              <div class="score-data">
-                <span class="value">82</span>
-                <span class="label">Health Score</span>
-              </div>
-            </div>
-            
-            <div class="status-pill eat-recommended">
-              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span> Eat Recommended
-            </div>
-            
-            <div class="insight-text">
-              <h3>Precision Insight</h3>
-              <p>Your glucose levels are stabilizing. Opt for complex carbs with high fiber to maintain this metabolic momentum.</p>
+            <div id="alternatives-container" class="alternatives-card glass-card" aria-live="polite">
+               <!-- Dynamically Injected -->
             </div>
           </div>
 
-          <div id="alternatives-container" class="alternatives-card glass-card">
-             <h4>Healthier Alternatives</h4>
-             <div class="list">
-               <div class="alt-item">
-                 <div class="alt-info">
-                   <div class="icon-box"><span class="material-symbols-outlined">eco</span></div>
-                   <div>
-                     <p>Quinoa Salad</p>
-                     <span>+12% Fiber Density</span>
-                   </div>
-                 </div>
-                 <span class="material-symbols-outlined text-tertiary">trending_up</span>
-               </div>
-               <div class="alt-item">
-                 <div class="alt-info">
-                   <div class="icon-box"><span class="material-symbols-outlined">water_full</span></div>
-                   <div>
-                     <p>Greek Yogurt</p>
-                     <span>+8% Protein Ratio</span>
-                   </div>
-                 </div>
-                 <span class="material-symbols-outlined text-tertiary">trending_up</span>
-               </div>
-             </div>
-          </div>
-        </div>
-
-        <!-- Places API Section -->
-        <div class="places-section">
-          <div class="places-header">
-            <div>
-              <h3>Nearby Clinical Bites</h3>
-              <p>Curated healthy food locations matching your metabolism.</p>
+          <!-- Places API Section -->
+          <div class="places-section" aria-labelledby="places-title">
+            <div class="places-header">
+              <div>
+                <h3 id="places-title">Local Healthy Spots</h3>
+                <p>Curated healthy food locations matching your metabolism.</p>
+              </div>
             </div>
-            <button class="text-link">View Map <span class="material-symbols-outlined">map</span></button>
-          </div>
-          
-          <div id="places-container" class="places-grid">
-            <!-- Fetch outputs inserted here, placeholders mirroring Stitch attached image for now -->
-            <div class="place-card glass-card">
-               <div class="place-image">
-                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-3UJ1qjwVVl46iLATykaByNrsrDCzMTt4H1BsngJfIcYsVgOpiAMhOPJKrupM5LlkO8mWYTYIG12-JlzDfIuIi6uUNOX8IuXNt36j_mutDSBc8JZ7G9kLI-2ndA42YkNdLu65t7dPHJ1NUth8MC5-3qmGZXKooBEGHzea4QURwyIvTqOxqXqeG7bRhXSnH6s9mCX0sQfcxxsesAKEs7xx56lkrfxiw2xx7je2aoojSW_2CRUtCiHSwB_fwVrP06hxUCrl_ubHEtrZ" alt="Greens">
-                  <div class="rating"><span class="material-symbols-outlined">star</span> 4.9</div>
-               </div>
-               <div class="place-info">
-                  <h4>Greens & Grains</h4>
-                  <div class="place-meta"><span><span class="material-symbols-outlined">location_on</span> 0.4 miles</span> <span class="tag">Dietitian Approved</span></div>
-               </div>
-            </div>
-            <div class="place-card glass-card">
-               <div class="place-image bg-img2">
-                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFYMVNxoiHWrzQbHfQmARYZIFuQQqXfhIykxUHdhkskCIJOIRzIFdmn7Gn5VrqiD-qSp17xam8eJ_kaBHdSpyx52z0IXxPWiEA-DGzjSegCBH6EnFEz_hhWg0JE1XVW8oUBPqd2O2D66cDrh0-k9gvt4UQscNV-TQ4pj_qUG32_4BmL8g4en5QDvEwjLjGdWNYQhcV9q632XcY1IPZaSVkmpmQHO5m5kKQ4UzJ2VPsm6Z_O-uSqYInHt9OsU7Mf1G639HruiUCeRnw" alt="Bowls">
-                  <div class="rating"><span class="material-symbols-outlined">star</span> 4.7</div>
-               </div>
-               <div class="place-info">
-                  <h4>Vitality Bowls</h4>
-                  <div class="place-meta"><span><span class="material-symbols-outlined">location_on</span> 1.2 miles</span> <span class="tag">Low Glycemic</span></div>
-               </div>
+            <div id="places-container" class="places-grid" aria-live="polite">
             </div>
           </div>
         </div>
-
       </div>
     </div>
+
+    <!-- view 2: LOGS -->
+    <div id="view-logs" class="page-view dashboard-wrapper">
+      <section class="hero-header">
+        <h1>Health <span>Decision</span> Logs</h1>
+        <p>A granular trace of evaluations generated by your daily contextual inputs.</p>
+      </section>
+      <div id="logs-list-container" class="places-grid" style="margin-top:2rem;">
+         <!-- Dynamic list insertion -->
+      </div>
+    </div>
+
+    <!-- view 3: INSIGHTS -->
+    <div id="view-insights" class="page-view dashboard-wrapper">
+      <section class="hero-header">
+        <h1>AI <span>Behavioral</span> Insights</h1>
+        <p>Macro analysis of your recent behavioral food paths highlighting core recommendations.</p>
+      </section>
+      <div class="glass-card" style="margin-top:2rem;">
+         <h2 style="margin-bottom: 1rem;"><span class="material-symbols-outlined text-tertiary">psychology</span> Top Algorithmically Suggested Match</h2>
+         <p id="insight-text-output" class="text-primary" style="font-size:1.5rem; font-weight:700;"></p>
+      </div>
+    </div>
+
+    <!-- view 4: NEARBY -->
+    <div id="view-nearby" class="page-view dashboard-wrapper">
+      <section class="hero-header">
+        <h1>Nearby <span>Healthy</span> Joints</h1>
+        <p>A full view capturing optimized nutritional locations.</p>
+      </section>
+      <div id="nearby-page-container" class="places-grid" style="margin-top:2rem;">
+        <!-- Dynamic -->
+      </div>
+    </div>
+
+    <!-- view 5: ACCOUNT -->
+    <div id="view-account" class="page-view dashboard-wrapper">
+      <section class="hero-header">
+        <h1>Your <span>Profile</span></h1>
+        <p>Manage system preferences and localized logic caches.</p>
+      </section>
+      <div class="glass-card" style="margin-top:2rem; max-width:600px;">
+        <h2 style="margin-bottom: 1rem;">System Storage</h2>
+        <p class="text-muted" style="margin-bottom:2rem;">Clearing your history will reset the behavior tracking array simulation natively without requiring cookies.</p>
+        <button id="clear-history-btn" class="primary-btn" style="background:#e11d48; box-shadow:none;">Wipe Behavioral Logic Caches</button>
+      </div>
+    </div>
+
   </main>
   
   <script type="module" src="/src/main.js"></script>
