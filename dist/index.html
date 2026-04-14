@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SwasthBite | Smart Health Assistant</title>
+    <!-- Use Google Fonts (Inter) for clean typography styling -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="/assets/index-CditPqqv.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BJPS2ZwD.css">
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="app-header">
+        <h1 class="logo">Swasth<span>Bite</span></h1>
+        <p class="subtitle">Contextual Nutrition Intelligence</p>
+      </header>
+
+      <main class="main-content">
+        <!-- Input Section -->
+        <section class="context-panel glass-panel" aria-labelledby="context-heading">
+          <h2 id="context-heading" class="section-title">Current State</h2>
+          
+          <form id="context-form" class="context-form" aria-label="Health Context Form">
+            <div class="form-group">
+              <label for="goal-select">Primary Goal</label>
+              <select id="goal-select" name="goal" required aria-required="true">
+                <option value="weight_loss">Weight Loss</option>
+                <option value="muscle_gain">Muscle Gain</option>
+                <option value="maintenance" selected>Maintenance / General Health</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="hunger-level">Hunger Level (1-10)</label>
+              <input type="range" id="hunger-level" name="hunger" min="1" max="10" value="5" aria-valuemin="1" aria-valuemax="10" aria-valuenow="5">
+              <span id="hunger-value-display" aria-hidden="true" class="range-display">5</span>
+            </div>
+
+            <div class="form-group">
+              <label for="mood-select">Current Mood</label>
+              <select id="mood-select" name="mood" required aria-required="true">
+                <option value="neutral" selected>Neutral</option>
+                <option value="stressed">Stressed</option>
+                <option value="fatigued">Fatigued</option>
+                <option value="happy">Happy</option>
+              </select>
+            </div>
+
+            <button type="submit" class="analyze-btn" aria-label="Analyze My Context">Evaluate Strategy</button>
+          </form>
+        </section>
+
+        <!-- Output Section -->
+        <section class="output-panel glass-panel" aria-labelledby="output-heading">
+          <h2 id="output-heading" class="section-title">Analysis & Recommendation</h2>
+          
+          <div id="ai-response-container" class="ai-response" aria-live="polite" aria-atomic="true">
+            <p class="placeholder-text">Awaiting input data for contextual analysis...</p>
+            <!-- Content will be injected here via JS -->
+          </div>
+          
+          <div id="places-container" class="places-container" aria-live="polite">
+             <!-- Places API results injected here -->
+          </div>
+        </section>
+      </main>
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SwasthBite | Clinical Ether Dashboard</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="surface-bg">
+
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="logo-area">
+        <h1>SwasthBite</h1>
+        <span class="tagline">Smart Bites. Swasth Life.</span>
+      </div>
+      <nav class="desktop-nav">
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Analytics</a>
+        <a href="#">Clinics</a>
+        <a href="#">History</a>
+      </nav>
+      <div class="user-actions">
+        <button class="icon-btn"><span class="material-symbols-outlined">notifications</span></button>
+        <button class="icon-btn"><span class="material-symbols-outlined">settings</span></button>
+        <div class="avatar">
+           <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgC3DfHdAclvxByo4KQa-PcOR3crXnImzMVmBU5PxCPEfc_ifwJ0oP00JnzI12j3a9IGrcrnkbCYivJzx65cLSn6vG9uXvpbmlLDpbR2x4V18PRBjY1FMsEmYTswIeVz7Q61_QVO35_3GIRfGjgilpnKANl2ro7oktNQHRCzYGhg6qirAMRGbbeZr6NI-XTbyNhXPFEdV3SSaC6bGlj4_UdAURtPYo8WwYG_RbwgKsx-rw67Q3ur0AEO3ZCmWda7Mw_1UbWCu6oibH" alt="Profile">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-icon">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">clinical_notes</span>
+      </div>
+      <div class="sidebar-title">
+        <h2>Clinical Ether</h2>
+        <p>Health Assistant</p>
+      </div>
+    </div>
+    
+    <nav class="side-nav">
+      <a href="#" class="active"><span class="material-symbols-outlined">home</span>Home</a>
+      <a href="#"><span class="material-symbols-outlined">edit_note</span>Health Log</a>
+      <a href="#"><span class="material-symbols-outlined">psychology</span>AI Insights</a>
+      <a href="#"><span class="material-symbols-outlined">location_on</span>Nearby Help</a>
+      <a href="#"><span class="material-symbols-outlined">person</span>Account</a>
+    </nav>
+    
+    <div class="sidebar-bottom">
+      <button class="sos-btn">
+        <span class="material-symbols-outlined">emergency</span> Emergency SOS
+      </button>
+    </div>
+    <div class="sidebar-footer">
+      <a href="#"><span class="material-symbols-outlined">help</span>Support</a>
+      <a href="#"><span class="material-symbols-outlined">logout</span>Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <div class="dashboard-wrapper">
+      
+      <section class="hero-header">
+        <h1>Clinical <span>Intelligence</span> Dashboard</h1>
+        <p>Precision nutrition and wellness metrics driven by Clinical Ether AI for your smart lifestyle.</p>
+      </section>
+
+      <div class="bento-grid">
+        <!-- 70% Layout left form -->
+        <div class="input-panel glass-card">
+          <div class="panel-heading">
+            <div class="icon-wrap"><span class="material-symbols-outlined">analytics</span></div>
+            <h2>Clinical Assessment</h2>
+          </div>
+
+          <form id="context-form" class="assessment-form">
+            <div class="form-row">
+              <div class="input-group">
+                <label>Primary Goal</label>
+                <select id="goal-select" name="goal">
+                  <option value="weight_loss">Weight loss</option>
+                  <option value="muscle_gain">Muscle gain</option>
+                  <option value="maintenance">Maintenance</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Current Mood</label>
+                <select id="mood-select" name="mood">
+                  <option value="neutral">Normal</option>
+                  <option value="stressed">Stressed</option>
+                  <option value="happy">Energetic</option>
+                  <option value="fatigued">Fatigued</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="input-group full-width">
+              <div class="label-row">
+                <label>Hunger Level (0-10)</label>
+                <span id="hunger-value-display" class="highlight-val">7.0</span>
+              </div>
+              <input type="range" id="hunger-level" min="0" max="10" step="0.5" value="7">
+            </div>
+
+            <div class="input-group full-width">
+              <label>Current Location</label>
+              <div class="icon-input">
+                <span class="material-symbols-outlined text-muted">location_on</span>
+                <input type="text" id="location-input" placeholder="San Francisco, CA" value="San Francisco, CA">
+              </div>
+            </div>
+
+            <div class="form-action">
+              <button type="submit" class="primary-btn">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">neurology</span>
+                Analyze Nutrition Data
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 30% Layout right results -->
+        <div class="results-panel">
+          <div id="ai-response-container" class="score-card glass-card">
+            <!-- Dynamic data will be injected here. Initial state matches design -->
+            <div class="score-circle">
+              <svg viewBox="0 0 160 160">
+                <circle cx="80" cy="80" r="70" class="track"></circle>
+                <circle cx="80" cy="80" r="70" class="progress" style="stroke-dashoffset: 110;"></circle>
+              </svg>
+              <div class="score-data">
+                <span class="value">82</span>
+                <span class="label">Health Score</span>
+              </div>
+            </div>
+            
+            <div class="status-pill eat-recommended">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span> Eat Recommended
+            </div>
+            
+            <div class="insight-text">
+              <h3>Precision Insight</h3>
+              <p>Your glucose levels are stabilizing. Opt for complex carbs with high fiber to maintain this metabolic momentum.</p>
+            </div>
+          </div>
+
+          <div id="alternatives-container" class="alternatives-card glass-card">
+             <h4>Healthier Alternatives</h4>
+             <div class="list">
+               <div class="alt-item">
+                 <div class="alt-info">
+                   <div class="icon-box"><span class="material-symbols-outlined">eco</span></div>
+                   <div>
+                     <p>Quinoa Salad</p>
+                     <span>+12% Fiber Density</span>
+                   </div>
+                 </div>
+                 <span class="material-symbols-outlined text-tertiary">trending_up</span>
+               </div>
+               <div class="alt-item">
+                 <div class="alt-info">
+                   <div class="icon-box"><span class="material-symbols-outlined">water_full</span></div>
+                   <div>
+                     <p>Greek Yogurt</p>
+                     <span>+8% Protein Ratio</span>
+                   </div>
+                 </div>
+                 <span class="material-symbols-outlined text-tertiary">trending_up</span>
+               </div>
+             </div>
+          </div>
+        </div>
+
+        <!-- Places API Section -->
+        <div class="places-section">
+          <div class="places-header">
+            <div>
+              <h3>Nearby Clinical Bites</h3>
+              <p>Curated healthy food locations matching your metabolism.</p>
+            </div>
+            <button class="text-link">View Map <span class="material-symbols-outlined">map</span></button>
+          </div>
+          
+          <div id="places-container" class="places-grid">
+            <!-- Fetch outputs inserted here, placeholders mirroring Stitch attached image for now -->
+            <div class="place-card glass-card">
+               <div class="place-image">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-3UJ1qjwVVl46iLATykaByNrsrDCzMTt4H1BsngJfIcYsVgOpiAMhOPJKrupM5LlkO8mWYTYIG12-JlzDfIuIi6uUNOX8IuXNt36j_mutDSBc8JZ7G9kLI-2ndA42YkNdLu65t7dPHJ1NUth8MC5-3qmGZXKooBEGHzea4QURwyIvTqOxqXqeG7bRhXSnH6s9mCX0sQfcxxsesAKEs7xx56lkrfxiw2xx7je2aoojSW_2CRUtCiHSwB_fwVrP06hxUCrl_ubHEtrZ" alt="Greens">
+                  <div class="rating"><span class="material-symbols-outlined">star</span> 4.9</div>
+               </div>
+               <div class="place-info">
+                  <h4>Greens & Grains</h4>
+                  <div class="place-meta"><span><span class="material-symbols-outlined">location_on</span> 0.4 miles</span> <span class="tag">Dietitian Approved</span></div>
+               </div>
+            </div>
+            <div class="place-card glass-card">
+               <div class="place-image bg-img2">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFYMVNxoiHWrzQbHfQmARYZIFuQQqXfhIykxUHdhkskCIJOIRzIFdmn7Gn5VrqiD-qSp17xam8eJ_kaBHdSpyx52z0IXxPWiEA-DGzjSegCBH6EnFEz_hhWg0JE1XVW8oUBPqd2O2D66cDrh0-k9gvt4UQscNV-TQ4pj_qUG32_4BmL8g4en5QDvEwjLjGdWNYQhcV9q632XcY1IPZaSVkmpmQHO5m5kKQ4UzJ2VPsm6Z_O-uSqYInHt9OsU7Mf1G639HruiUCeRnw" alt="Bowls">
+                  <div class="rating"><span class="material-symbols-outlined">star</span> 4.7</div>
+               </div>
+               <div class="place-info">
+                  <h4>Vitality Bowls</h4>
+                  <div class="place-meta"><span><span class="material-symbols-outlined">location_on</span> 1.2 miles</span> <span class="tag">Low Glycemic</span></div>
+               </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+  
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
